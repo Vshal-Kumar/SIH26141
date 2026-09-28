@@ -1,19 +1,29 @@
-# Simulation-Based Quantum-Inspired Cyber Threat Detection for Long-Distance Photonic Quantum Digital Signatures
+# Quantum-Inspired Cyber Threat Detection for Digital Signature Security (SIH PS 26141)
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
 [![Tests](https://img.shields.io/badge/tests-43%20passed%20(100%25)-brightgreen.svg)]()
 [![SIH Category](https://img.shields.io/badge/SIH-Cybersecurity%20%26%20Quantum%20Comms-purple.svg)]()
 [![Deterministic](https://img.shields.io/badge/Detection-Deterministic%20Statistical%20(No%20AI%2FML)-orange.svg)]()
 [![Verification Latency](https://img.shields.io/badge/Latency-%3C%2030%20ms-success.svg)]()
+[![Problem Owner](https://img.shields.io/badge/Problem%20Owner-Egreen%20Quanta%20LLP-blueviolet.svg)]()
 
-A research-grade Python simulation framework modeling a **Teleportation-Based Quantum Digital Signature (QDS)** protocol over a **long-distance photonic optical fiber channel** ($10\text{ km} - 200\text{ km}$ at telecom $\lambda = 1550\text{ nm}$). 
+A research-grade Python simulation framework implementing a **Teleportation-Based Quantum Digital Signature (QDS)** protocol over a **photonic optical channel** (standard telecom fiber at $\lambda = 1550\text{ nm}$ with realistic loss $\alpha = 0.2\text{ dB/km}$ and quantum noise).
 
-The core innovation is a **deterministic, non-AI three-tier cyber threat detection architecture** combining cryptographic protocol security, discrete-variable QDS verification, Pauli eigenstate measurements ($X, Y, Z$), and distance-aware adaptive statistical hypothesis testing to detect:
-1. **Signature Forgery** (Quantum State Guessing)
-2. **Signer Impersonation** (Identity Spoofing)
-3. **Nonce Replay Attacks** (Duplicate Session Resend)
-4. **Unauthorized Verifier Access** (Rogue Node Clearance)
-5. **Physical Quantum Channel Tampering** (Pauli $X, Y, Z$ Eavesdropping / Noise)
+Developed for **Smart India Hackathon (SIH 2026)** | **Problem Statement 5 / ID 26141** | **Organization: Egreen Quanta LLP** | **Team: HexaCore**.
+
+---
+
+## 🎯 Official Deliverables Compliance Matrix (Egreen Quanta LLP)
+
+| S.No | Expected Deliverable | Description | Implementation in this Framework | Compliance Status |
+|:---:|---|---|---|:---:|
+| **1** | **Mathematical Model of Teleportation-based QDS** | Formal description of signature protocol | • Bell-state entanglement ($|\Phi^+\rangle$)<br>• Quantum teleportation with Bell-State Measurement (BSM)<br>• Pauli unitary corrections ($U = Z^{c_1}X^{c_2}$)<br>• Multi-basis projective measurement rules ($X, Y, Z$) | **100% Complete**<br>([`quantum/`](file:///home/vishal-kumar/Desktop/SIH/SIH26141/quantum)) |
+| **2** | **Quantum-Inspired Threat Detection Framework** | Core detection engine | • Strictly non-AI/ML deterministic statistical engine<br>• Total Variation Distance ($D_{TV}$) + Pearson's $\chi^2$ hypothesis testing<br>• Distance-aware adaptive thresholds $\tau(L, N)$<br>• Detection of forgery, impersonation, replay, & channel tampering | **100% Complete**<br>([`detection/`](file:///home/vishal-kumar/Desktop/SIH/SIH26141/detection), [`security/`](file:///home/vishal-kumar/Desktop/SIH/SIH26141/security)) |
+| **3** | **Signature Generation & Verification Module** | Implementation of QDS operations | • Quantum public key distribution simulation<br>• Alice's signature generation across 6 Pauli eigenstates<br>• Bob's 4-tier verification algorithm with Pauli corrections | **100% Complete**<br>([`qds/`](file:///home/vishal-kumar/Desktop/SIH/SIH26141/qds)) |
+| **4** | **Attack Simulation Module** | Controlled simulation of cyber threats | • Quantum state guessing / forgery attempts<br>• Signer identity impersonation spoofing<br>• Nonce replay attacks<br>• Optical channel tampering (Pauli $X, Y, Z$ bit/phase flips) | **100% Complete**<br>([`attacks/`](file:///home/vishal-kumar/Desktop/SIH/SIH26141/attacks)) |
+| **5 & 6** | **Software Framework / Prototype** | End-to-end implementable system | • Interactive Web Demonstration Dashboard (`python main.py --demo`)<br>• CLI Simulation Interface (`python main.py --simulate`)<br>• Security event audit logging & 11 benchmark suites<br>• 43 automated Pytest test cases (100% Green) | **100% Complete**<br>([`web/`](file:///home/vishal-kumar/Desktop/SIH/SIH26141/web), [`main.py`](file:///home/vishal-kumar/Desktop/SIH/SIH26141/main.py)) |
+
+---
 
 ---
 

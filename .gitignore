@@ -68,3 +68,45 @@ Thumbs.db
 .system_generated/
 scratch/
 tmp/
+*.bak
+*.tmp
+*.temp
+
+# ==========================================
+# Heavy Presentations & Office Files
+# ==========================================
+*.pptx
+*.ppt
+*.key
+*.odp
+~$*.pptx
+~$*.docx
+~$*.xlsx
+.~lock.*
+*backup*.pptx
+old*.pptx
+test_*.pptx
+
+# ==========================================
+# PDF Documents & Generated Reports
+# ==========================================
+*.pdf
+
+# ==========================================
+# Slide Previews & Rendered Images
+# ==========================================
+slide_*.png
+slide_*.jpg
+slide_*.webp
+*.preview.png
+
+# ==========================================
+# Heavy Figures & Plots
+# ==========================================
+results/figures/*.png
+
+# ==========================================
+# Temporary Root Generator Scripts
+# ==========================================
+generate_*_deck.py
+
