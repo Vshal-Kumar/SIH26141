@@ -1,0 +1,122 @@
+# ==========================================
+# Python Bytecode and Cache
+# ==========================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# ==========================================
+# Virtual Environments
+# ==========================================
+venv/
+env/
+ENV/
+.env/
+.venv/
+env.bak/
+venv.bak/
+
+# ==========================================
+# Testing & Coverage
+# ==========================================
+.pytest_cache/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.tox/
+.nox/
+
+# ==========================================
+# Databases & Runtime State
+# ==========================================
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+teleshield.db
+
+# ==========================================
+# IDEs & OS-specific files
+# ==========================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ==========================================
+# Logs, Temporary & IDE Agent Files
+# ==========================================
+*.log
+.system_generated/
+scratch/
+tmp/
+*.bak
+*.tmp
+*.temp
+
+# ==========================================
+# Heavy Presentations & Office Files
+# ==========================================
+*.pptx
+*.ppt
+*.key
+*.odp
+~$*.pptx
+~$*.docx
+~$*.xlsx
+.~lock.*
+*backup*.pptx
+old*.pptx
+test_*.pptx
+
+# ==========================================
+# PDF Documents & Generated Reports
+# ==========================================
+*.pdf
+
+# ==========================================
+# Slide Previews & Rendered Images
+# ==========================================
+slide_*.png
+slide*.png
+slide_*.jpg
+slide_*.webp
+*.preview.png
+
+# ==========================================
+# Heavy Figures & Plots
+# ==========================================
+results/figures/*.png
+experiments_output/*.html
+
+# ==========================================
+# Temporary Root Generator Scripts
+# ==========================================
+generate_*_deck.py
