@@ -1,0 +1,40 @@
+{
+  "experiment_id": "E03",
+  "title": "Forgery Probability vs Qubits per Bit (L)",
+  "seed": 42,
+  "elapsed_seconds": 86.56815926699892,
+  "summary_metrics": {
+    "bound_at_min_L": 0.9872815715902905,
+    "bound_at_max_L": 2.73448564791197e-10,
+    "exponential_decay_confirmed": true
+  },
+  "data": {
+    "L_values": [
+      16,
+      32,
+      48,
+      64,
+      96,
+      128,
+      160
+    ],
+    "analytical_bounds": [
+      0.9872815715902905,
+      0.9747249016017939,
+      0.5884850990098077,
+      0.1149275846364295,
+      0.0006230096174998777,
+      6.866601348911115e-07,
+      2.73448564791197e-10
+    ],
+    "empirical_accept_rates": [
+      1e-06,
+      1e-06,
+      1e-06,
+      1e-06,
+      1e-06,
+      1e-06,
+      1e-06
+    ]
+  }
+}

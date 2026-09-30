@@ -1,7 +1,0 @@
-metric,value
-signature_qubit_count,16
-mismatch_threshold,0.15
-theoretical_bound,0.0020904541015625
-empirical_trials,50
-forged_accepted,0
-empirical_forgery_prob,0.0

@@ -1,0 +1,37 @@
+{
+  "experiment_id": "E02",
+  "title": "Honest QDS False Rejection vs Noise",
+  "seed": 42,
+  "elapsed_seconds": 28.059826228998645,
+  "summary_metrics": {
+    "mean_empirical_rejection": 0.0,
+    "max_empirical_rejection": 0.0,
+    "protocol_soundness": true
+  },
+  "data": {
+    "noise_levels": [
+      0.001,
+      0.005,
+      0.01,
+      0.015,
+      0.02,
+      0.025
+    ],
+    "empirical_rejection_rates": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "analytical_bounds": [
+      9.999999999999994e-06,
+      9.999999999999994e-06,
+      9.999999999999994e-06,
+      9.999999999999994e-06,
+      9.999999999999994e-06,
+      9.999999999999994e-06
+    ]
+  }
+}

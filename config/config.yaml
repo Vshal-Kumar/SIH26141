@@ -1,0 +1,32 @@
+project:
+  name: "TeleShield"
+  full_title: "TeleShield: Quantum-Inspired Cyber Threat Detection Framework for Teleportation-Based Quantum Digital Signatures"
+  version: "1.0.0"
+
+protocol:
+  n: 64
+  L: 222
+  basis_mode: "XZ"
+  hash_mode: "sha256"
+
+simulation:
+  backend: "aer"
+  shots: 10000
+  seed: 42
+
+noise:
+  type: "depolarizing"
+  probability: 0.01
+
+security:
+  false_rejection_target: 1.0e-6
+  forgery_acceptance_target: 1.0e-6
+  expected_honest_noise: 0.01
+
+attack:
+  type: "none"
+  strength: 0.0
+
+audit:
+  db_path: "teleshield.db"
+  chain_algorithm: "sha256"

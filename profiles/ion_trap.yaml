@@ -1,0 +1,43 @@
+name: "ion_trap"
+display_name: "Ion-Trap-Aligned Simulation Profile"
+profile_type: "ion_trap"
+backend: "aer"
+description: >
+  Ion-trap-aligned simulation profile based on literature-derived parameters for trapped-ion
+  architectures (such as 171Yb+ or 40Ca+ ions in RF Paul traps with optical addressing).
+  This simulation model represents standard peer-reviewed benchmark values and does NOT represent
+  any proprietary hardware specifications of Egreen Quanta or commercial vendors.
+reference_model: "Trapped-Ion Benchmark (Literature-Derived)"
+
+parameters:
+  one_qubit_gate_error:
+    value: 0.0005
+    status: "literature-derived"
+    description: "Single-qubit Raman/microwave rotation error (fidelity ~99.95%)"
+  two_qubit_gate_error:
+    value: 0.005
+    status: "literature-derived"
+    description: "Two-qubit Mølmer-Sørensen entangling gate error (fidelity ~99.50%)"
+  readout_error:
+    value: 0.001
+    status: "literature-derived"
+    description: "Fluorescence state-detection / PMT readout error (0.10%)"
+  dephasing_rate:
+    value: 0.0002
+    status: "literature-derived"
+    description: "Magnetic-field fluctuations and laser phase noise dephasing rate per cycle"
+  depolarizing_rate:
+    value: 0.0008
+    status: "literature-derived"
+    description: "Residual motional mode heating and photon scattering depolarizing rate"
+  loss_rate:
+    value: 0.0001
+    status: "assumed"
+    description: "Ion loss / dark state leakage probability during protocol execution"
+  bell_pair_fidelity:
+    value: 0.992
+    status: "experimentally configured"
+    description: "Entangled pair generation fidelity via photonic/ion interconnect"
+
+shots: 10000
+seed: 42

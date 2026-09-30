@@ -1,0 +1,36 @@
+{
+  "experiment_id": "E01",
+  "title": "Teleportation Fidelity vs Channel Degradation",
+  "seed": 42,
+  "elapsed_seconds": 0.11845022600027733,
+  "summary_metrics": {
+    "ideal_fidelity": 1.0000000000000002,
+    "min_fidelity_at_p03": 0.7750000000000002,
+    "classical_violation": true
+  },
+  "data": {
+    "noise_levels": [
+      0.0,
+      0.01,
+      0.02,
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.25,
+      0.3
+    ],
+    "mean_fidelities": [
+      1.0000000000000002,
+      0.9925,
+      0.9850000000000002,
+      0.9625,
+      0.9249999999999999,
+      0.8875000000000002,
+      0.85,
+      0.8125,
+      0.7750000000000002
+    ],
+    "ideal_fidelity": 1.0000000000000002
+  }
+}

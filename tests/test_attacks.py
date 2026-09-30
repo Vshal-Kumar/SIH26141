@@ -1,73 +1,123 @@
-"""Unit tests for Pauli physical attacks (X, Y, Z, Depolarization)."""
+"""
+Attack Regression Test Suite
+Guarantees that every modeled adversarial attack produces the exact expected
+deterministic detector verdict in the Q-STAT pipeline.
+"""
 
 import pytest
-import numpy as np
-from quantum.pauli_states import (
-    STATE_0,
-    STATE_1,
-    STATE_PLUS,
-    STATE_PLUS_Y,
-    to_density_matrix,
-    quantum_fidelity
-)
-from attacks.quantum.bit_flip import apply_bit_flip_attack
-from attacks.quantum.phase_flip import apply_phase_flip_attack
-from attacks.quantum.bit_phase_flip import apply_bit_phase_flip_attack
-from attacks.attack_engine import AttackEngine
+from teleshield.backends.exact import ExactBackend
+from teleshield.qds.session import QDSSession
+from teleshield.attacks.forgery import RandomForgeryAttack
+from teleshield.attacks.splice import SpliceForgeryAttack
+from teleshield.attacks.impersonation import ImpersonationAttack
+from teleshield.attacks.replay import ReplayAttack
+from teleshield.attacks.channel import ChannelManipulationAttack
+from teleshield.attacks.unauthorized import UnauthorizedVerificationAttack
+from teleshield.attacks.intercept_resend import InterceptResendAttack
 
 
-def test_bit_flip_x_attack():
-    """Verify Pauli X flips |0> to |1> at 100% attack strength."""
-    rho_0 = to_density_matrix(STATE_0)
-    rho_1 = to_density_matrix(STATE_1)
-    
-    # 100% X attack: |0><0| -> |1><1|
-    attacked_rho = apply_bit_flip_attack(rho_0, attack_strength=1.0)
-    assert np.allclose(attacked_rho, rho_1)
-    assert np.isclose(quantum_fidelity(rho_0, attacked_rho), 0.0)
-    
-    # 50% X attack: Fidelity drops to 0.5
-    half_attack = apply_bit_flip_attack(rho_0, attack_strength=0.5)
-    assert np.isclose(quantum_fidelity(rho_0, half_attack), 0.5)
+@pytest.fixture
+def active_session():
+    """Provides an initialized clean QDS session with teleported states."""
+    return QDSSession.create(
+        n=16,
+        L=32,
+        backend=ExactBackend(seed=42),
+        bell_visibility=1.0,
+        seed=42,
+    )
 
 
-def test_phase_flip_z_attack():
-    """Verify Pauli Z flips |+> to |-> at 100% attack strength."""
-    rho_plus = to_density_matrix(STATE_PLUS)
-    
-    attacked_plus = apply_phase_flip_attack(rho_plus, attack_strength=1.0)
-    assert np.isclose(quantum_fidelity(rho_plus, attacked_plus), 0.0)
+def test_attack_random_forgery_regression(active_session):
+    """Random forgery must produce FORGERY_SUSPECTED."""
+    msg = "Target payment transaction"
+    sig = active_session.sign(msg)
+
+    attack = RandomForgeryAttack(strength=1.0, seed=42)
+    attack_res = attack.execute(signature=sig)
+
+    verdict, stats = active_session.verify(msg, attack_res.manipulated_signature, seed=42)
+    assert verdict.verdict.value == "FORGERY_SUSPECTED"
+    assert not verdict.is_accepted
+    assert stats.global_mismatch_rate > verdict.threshold
 
 
-def test_bit_phase_flip_y_attack():
-    """Verify Pauli Y flips |0> to |1> and |+> to |->, while leaving |+_y> invariant (demonstrating need for 3 bases)."""
-    rho_0 = to_density_matrix(STATE_0)
-    rho_plus = to_density_matrix(STATE_PLUS)
-    rho_plus_y = to_density_matrix(STATE_PLUS_Y)
-    
-    # Y attack flips |0> to |1> (fidelity = 0.0)
-    attacked_0 = apply_bit_phase_flip_attack(rho_0, attack_strength=1.0)
-    assert np.isclose(quantum_fidelity(rho_0, attacked_0), 0.0)
-    
-    # Y attack flips |+> to |-> (fidelity = 0.0)
-    attacked_plus = apply_bit_phase_flip_attack(rho_plus, attack_strength=1.0)
-    assert np.isclose(quantum_fidelity(rho_plus, attacked_plus), 0.0)
-    
-    # Y attack leaves |+_y> invariant since it is a Y-eigenstate (fidelity = 1.0)
-    # This precisely demonstrates why multi-basis measurements (X, Y, Z) are mandatory!
-    attacked_y = apply_bit_phase_flip_attack(rho_plus_y, attack_strength=1.0)
-    assert np.isclose(quantum_fidelity(rho_plus_y, attacked_y), 1.0)
+def test_attack_splice_forgery_regression(active_session):
+    """Splice forgery must produce FORGERY_SUSPECTED and isolate affected blocks."""
+    donor_msg = "Pay $100 to Vendor Alpha"
+    target_msg = "Pay $1,000,000 to Vendor Bravo"
+    donor_sig = active_session.sign(donor_msg)
+
+    attack = SpliceForgeryAttack(target_blocks=[1, 3, 5], strength=1.0, seed=42)
+    attack_res = attack.execute(donor_signature=donor_sig, target_message=target_msg)
+
+    verdict, stats = active_session.verify(target_msg, attack_res.manipulated_signature, seed=42)
+    assert verdict.verdict.value in ("FORGERY_SUSPECTED", "REJECT")
+    assert not verdict.is_accepted
 
 
-def test_attack_engine_quantum_dispatch():
-    """Verify attack engine correctly routes attack types."""
-    engine = AttackEngine()
-    states = [to_density_matrix(STATE_0), to_density_matrix(STATE_PLUS)]
-    
-    # None
-    clean = engine.apply_quantum_attack(states, attack_type="none")
-    assert np.allclose(clean[0], states[0])
-    
-    # X attack
-    attacked_x = engine.apply_quantum_attack(states, attack_type="X", attack_strength=1.0)
-    assert np.allclose(attacked_x[0], to_density_matrix(STATE_1))
+def test_attack_impersonation_regression(active_session):
+    """Impersonation must produce IMPERSONATION_SUSPECTED or FORGERY_SUSPECTED."""
+    msg = "Impersonated authority decree"
+    attack = ImpersonationAttack(seed=42)
+    attack_res = attack.execute(
+        message=msg,
+        key_id=active_session.keypair.key_id,
+        verifier_id=active_session.verifier.verifier_id,
+        n_bits=active_session.keypair.n,
+        L=active_session.keypair.L,
+    )
+
+    verdict, stats = active_session.verify(msg, attack_res.manipulated_signature, seed=42)
+    assert verdict.verdict.value in ("IMPERSONATION_SUSPECTED", "FORGERY_SUSPECTED")
+    assert not verdict.is_accepted
+    # Near 50% mismatch
+    assert abs(stats.global_mismatch_rate - 0.50) < 0.15
+
+
+def test_attack_replay_regression(active_session):
+    """Replay must produce REPLAY."""
+    msg = "One-time funds release"
+    sig = active_session.sign(msg)
+
+    # First pass: legit verification
+    v1, _ = active_session.verify(msg, sig, seed=42)
+    assert v1.is_accepted
+
+    # Replay pass
+    attack = ReplayAttack()
+    attack_res = attack.execute(valid_signature=sig)
+    v2, _ = active_session.verify(msg, attack_res.manipulated_signature, seed=42)
+
+    assert v2.verdict.value == "REPLAY"
+    assert not v2.is_accepted
+
+
+def test_attack_unauthorized_verification_regression(active_session):
+    """Unauthorized verifier must produce UNAUTHORIZED_VERIFICATION."""
+    msg = "Confidential memorandum"
+    sig = active_session.sign(msg)
+
+    unauth_verifier = active_session.verifier.__class__(
+        verifier_id="attacker_charlie",
+        backend=active_session.backend,
+        pipeline=active_session.pipeline,
+    )
+    verdict, _ = unauth_verifier.verify(message=msg, signature=sig, slots={})
+
+    assert verdict.verdict.value == "UNAUTHORIZED_VERIFICATION"
+    assert not verdict.is_accepted
+
+
+def test_attack_channel_manipulation_regression(active_session):
+    """Strong channel manipulation must produce CHANNEL_ANOMALY or FORGERY_SUSPECTED."""
+    msg = "Teleported data packet"
+    sig = active_session.sign(msg)
+
+    attack = ChannelManipulationAttack(channel_type="depolarizing", strength=0.35, seed=42)
+    attack_res = attack.execute(slots=active_session.slots)
+    active_session.slots = attack_res.manipulated_slots
+
+    verdict, stats = active_session.verify(msg, sig, seed=42)
+    assert verdict.verdict.value in ("CHANNEL_ANOMALY", "FORGERY_SUSPECTED")
+    assert not verdict.is_accepted

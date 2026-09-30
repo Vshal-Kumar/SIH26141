@@ -1,0 +1,43 @@
+name: "rydberg"
+display_name: "Rydberg/Neutral-Atom Hardware-Aware Simulation Profile"
+profile_type: "rydberg"
+backend: "pulser"
+description: >
+  Rydberg/neutral-atom hardware-aware simulation profile representing optical tweezer arrays
+  of neutral alkali atoms (e.g., 87Rb) interacting via Rydberg blockade mechanisms.
+  Parameters are literature-derived from peer-reviewed neutral-atom experiments and do NOT
+  represent any proprietary hardware specifications of Egreen Quanta or commercial vendors.
+reference_model: "Neutral-Atom Rydberg Array Benchmark (Literature-Derived)"
+
+parameters:
+  one_qubit_gate_error:
+    value: 0.002
+    status: "literature-derived"
+    description: "Two-photon Raman transition / Rabi rotation single-qubit error (fidelity ~99.8%)"
+  two_qubit_gate_error:
+    value: 0.015
+    status: "literature-derived"
+    description: "Rydberg blockade entangling pulse error (fidelity ~98.5%)"
+  readout_error:
+    value: 0.012
+    status: "literature-derived"
+    description: "Fluorescence imaging / atom loss assignment error (~1.2%)"
+  dephasing_rate:
+    value: 0.003
+    status: "literature-derived"
+    description: "Laser phase noise and Doppler broadening dephasing rate (T2* ~ 20 microseconds)"
+  depolarizing_rate:
+    value: 0.004
+    status: "literature-derived"
+    description: "Rydberg state spontaneous emission and blackbody radiation decay"
+  loss_rate:
+    value: 0.005
+    status: "experimentally configured"
+    description: "Background gas collision and optical trap loss probability (0.5%)"
+  bell_pair_fidelity:
+    value: 0.978
+    status: "experimentally configured"
+    description: "Neutral-atom entanglement fidelity via Rydberg pulse sequences"
+
+shots: 10000
+seed: 42

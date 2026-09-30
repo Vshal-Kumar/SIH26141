@@ -1,0 +1,39 @@
+name: "ideal"
+display_name: "Ideal Quantum Profile"
+profile_type: "ideal"
+backend: "exact"
+description: "Noiseless theoretical baseline with unitary evolution and perfect projective readout."
+reference_model: "Unitary baseline"
+
+parameters:
+  one_qubit_gate_error:
+    value: 0.0
+    status: "assumed"
+    description: "Ideal single-qubit gate error"
+  two_qubit_gate_error:
+    value: 0.0
+    status: "assumed"
+    description: "Ideal two-qubit entangling gate error"
+  readout_error:
+    value: 0.0
+    status: "assumed"
+    description: "Ideal measurement assignment error"
+  dephasing_rate:
+    value: 0.0
+    status: "assumed"
+    description: "Zero dephasing rate"
+  depolarizing_rate:
+    value: 0.0
+    status: "assumed"
+    description: "Zero depolarizing rate"
+  loss_rate:
+    value: 0.0
+    status: "assumed"
+    description: "Zero photon/atom loss"
+  bell_pair_fidelity:
+    value: 1.0
+    status: "assumed"
+    description: "Perfect Bell state fidelity"
+
+shots: 10000
+seed: 42

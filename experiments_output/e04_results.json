@@ -1,0 +1,45 @@
+{
+  "experiment_id": "E04",
+  "title": "Splice Forgery Localized Block Detection",
+  "seed": 42,
+  "elapsed_seconds": 0.9693736010012799,
+  "summary_metrics": {
+    "verdict": "FORGERY_SUSPECTED",
+    "splice_detected": true,
+    "perfect_localization": false
+  },
+  "data": {
+    "ground_truth_spliced": [
+      3,
+      7,
+      11
+    ],
+    "detected_blocks": [
+      4,
+      8,
+      12,
+      14,
+      15
+    ],
+    "block_mismatch_rates": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.515625,
+      0.0,
+      0.0,
+      0.0,
+      0.453125,
+      0.0,
+      0.03125,
+      0.0,
+      0.40625,
+      0.0,
+      0.515625,
+      0.5
+    ],
+    "verdict": "FORGERY_SUSPECTED",
+    "threshold": 0.3699923966233095
+  }
+}
